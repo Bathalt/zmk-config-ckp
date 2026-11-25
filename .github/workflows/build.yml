@@ -39,8 +39,14 @@ jobs:
         run: cat build/zephyr/.config | grep -v "^#" | grep -v "^$"
       - name: Rename zmk.uf2
         run: cp build/zephyr/zmk.uf2 bt65.uf2
-      - name: Archive (bt65)
+      - name: West Build (settings_reset)
+        run: west build -d build/reset -s zmk/app -b bt65 -- -DZMK_CONFIG="${GITHUB_WORKSPACE}/config" -DSHIELD=settings_reset
+      - name: Rename settings_reset.uf2
+        run: cp build/reset/zephyr/zmk.uf2 settings_reset.uf2
+      - name: Archive firmware
         uses: actions/upload-artifact@v4
         with:
           name: firmware
-          path: bt65.uf2
+          path: |
+            bt65.uf2
+            settings_reset.uf2
