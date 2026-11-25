@@ -17,14 +17,12 @@ jobs:
         run: west update
       - name: West Zephyr export
         run: west zephyr-export
-      - name: List BT65 boards
-        run: west boards | grep bt65 || true
       - name: West Build (bt65)
-        run: west build -p always -s zmk/app -b bt65/nrf52840 -- -DZMK_CONFIG="${GITHUB_WORKSPACE}/config"
+        run: west build -p always -s zmk/app -b bt65//zmk -- -DZMK_CONFIG="${GITHUB_WORKSPACE}/config"
       - name: Rename zmk.uf2
         run: cp build/zephyr/zmk.uf2 bt65.uf2
       - name: West Build (settings_reset)
-        run: west build -p always -d build/reset -s zmk/app -b bt65/nrf52840 -- -DZMK_CONFIG="${GITHUB_WORKSPACE}/config" -DSHIELD=settings_reset
+        run: west build -p always -d build/reset -s zmk/app -b bt65//zmk -- -DZMK_CONFIG="${GITHUB_WORKSPACE}/config" -DSHIELD=settings_reset
       - name: Rename settings_reset.uf2
         run: cp build/reset/zephyr/zmk.uf2 settings_reset.uf2
       - name: Archive firmware
